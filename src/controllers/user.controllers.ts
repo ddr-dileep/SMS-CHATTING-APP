@@ -57,3 +57,24 @@ export const loginUserController = async (req: Request, res: Response) => {
     return res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const getUserInfoController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const user = await UserModal.findById(req.user._id).select("-password");
+
+    if (!user) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("user_not_found", "User not found"));
+    }
+
+    res.json(
+      apiResponse.SUCCESS({ user }, "User information retrieved successfully")
+    );
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};
