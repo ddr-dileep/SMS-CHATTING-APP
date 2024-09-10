@@ -105,3 +105,28 @@ export const updateUserInfoController = async (
     return res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const deleteUserInfoController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const userInfo = await UserModal.findById(req.user._id);
+    if (!userInfo) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("user_not_found", "User not found"));
+    }
+
+    await UserModal.findByIdAndDelete(req.user._id);
+
+    res.json(
+      apiResponse.SUCCESS(
+        { user: userInfo },
+        "User information deleted successfully"
+      )
+    );
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};

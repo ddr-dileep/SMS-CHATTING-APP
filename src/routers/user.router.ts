@@ -5,6 +5,7 @@ import {
   userUpdateMiddleWare,
 } from "../middlewares/user.middlewares";
 import {
+  deleteUserInfoController,
   getUserInfoController,
   loginUserController,
   registerUserController,
@@ -22,6 +23,11 @@ userRouter.patch(
   userUpdateMiddleWare,
   authTokenMiddleware,
   updateUserInfoController
+);
+userRouter.delete(
+  "/delete-info",
+  authTokenMiddleware,
+  deleteUserInfoController
 );
 
 export default userRouter;
