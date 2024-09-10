@@ -15,7 +15,7 @@ const swaggerOptions: Options = {
         url: "http://localhost:8080",
       },
       {
-        url: "other...",
+        url: "https://sms-chatting-app.onrender.com",
       },
     ],
     paths: {
