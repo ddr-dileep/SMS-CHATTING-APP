@@ -16,10 +16,20 @@
 
 ## Table of Contents
 
-- SMS app 
-- Swagger docs -> https://sms-chatting-app.onrender.com/api-docs/
+- SMS app
+- Swagger docs ->
 
+```
+https://sms-chatting-app.onrender.com/api-docs/
+```
 
+## Create secreat string
+
+```
+
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+```
 
 ## Contact
 
