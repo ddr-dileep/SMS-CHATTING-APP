@@ -114,4 +114,79 @@ export const userSwagger = {
       },
     },
   },
+  "/api/v1/user/update-info": {
+    patch: {
+      tags: ["Auth"],
+      summary: "Update user information",
+      description: "API to update user information using a Bearer token.",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                username: {
+                  type: "string",
+                  example: "newusername",
+                },
+                email: {
+                  type: "string",
+                  example: "newemail@example.com",
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        "200": {
+          description: "User information updated successfully",
+        },
+        "400": {
+          description: "Bad request (validation errors or missing data)",
+        },
+        "401": {
+          description: "Unauthorized (Invalid or missing token)",
+        },
+        "404": {
+          description: "Not found (User not found)",
+        },
+        "500": {
+          description: "Server error",
+        },
+      },
+    },
+  },
+  "/api/v1/user/delete-info": {
+    delete: {
+      tags: ["Auth"],
+      summary: "Delete user information",
+      description: "API to delete user information using a Bearer token.",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      responses: {
+        "200": {
+          description: "User information deleted successfully",
+        },
+        "401": {
+          description: "Unauthorized (Invalid or missing token)",
+        },
+        "404": {
+          description: "Not found (User not found)",
+        },
+        "500": {
+          description: "Server error",
+        },
+      },
+    },
+  },
 };
