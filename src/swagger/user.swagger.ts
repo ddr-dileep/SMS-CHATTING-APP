@@ -74,4 +74,44 @@ export const userSwagger = {
       },
     },
   },
+  "/api/v1/user/user-info": {
+    get: {
+      tags: ["Auth"],
+      summary: "Get user information",
+      description: "API to get user information using a Bearer token.",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      responses: {
+        "200": {
+          description: "User information retrieved successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  username: {
+                    type: "string",
+                    example: "johndoe",
+                  },
+                  email: {
+                    type: "string",
+                    example: "johndoe@example.com",
+                  },
+                },
+              },
+            },
+          },
+        },
+        "401": {
+          description: "Unauthorized (Invalid or missing token)",
+        },
+        "500": {
+          description: "Server error",
+        },
+      },
+    },
+  },
 };
