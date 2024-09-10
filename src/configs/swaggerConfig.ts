@@ -1,4 +1,5 @@
 import { Options } from "swagger-jsdoc";
+import { userSwagger } from "../swagger/user.swagger";
 
 const swaggerOptions: Options = {
   swaggerDefinition: {
@@ -14,11 +15,21 @@ const swaggerOptions: Options = {
         url: "http://localhost:8080",
       },
       {
-        url: "http://localhost:8000",
+        url: "other...",
+      },
+    ],
+    paths: {
+      ...userSwagger,
+    },
+    tags: [
+      {
+        name: "Auth",
+        description:
+          "APIs related to user operations (e.g., registration, login, get-user)",
       },
     ],
   },
-  apis: ["./src/routers/*.ts"],
+  apis: [],
 };
 
 export default swaggerOptions;
