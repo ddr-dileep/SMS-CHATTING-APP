@@ -7,7 +7,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png](https://www.webassetscdn.com/avira/prod-blog/wp-content/uploads/2018/05/bestmessenger_head.jpg)" alt="Logo" width="550" height="450" />
+    <img src="https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png](https://www.webassetscdn.com/avira/prod-blog/wp-content/uploads/2018/05/bestmessenger_head.jpg" alt="Logo" width="550" height="450" />
     <h3 align="center">
         <a href="https://github.com/ddr-dileep/school-management-app" target="_blank" >
         </a>
