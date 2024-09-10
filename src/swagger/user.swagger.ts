@@ -43,7 +43,7 @@ export const userSwagger = {
     post: {
       tags: ["Auth"],
       summary: "Login user",
-      description: "API to loginuser with required details.",
+      description: "API to login user with required details.",
       requestBody: {
         required: true,
         content: {

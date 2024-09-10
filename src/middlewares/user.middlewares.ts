@@ -18,3 +18,20 @@ export const registerUserMiddleware = (
   }
   next();
 };
+
+export const loginUserMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json(
+      apiResponse.ERROR({
+        username: username ? undefined : "Username is required",
+        password: password ? undefined : "Password is required",
+      })
+    );
+  }
+  next();
+};
