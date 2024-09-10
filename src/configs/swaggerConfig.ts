@@ -28,6 +28,20 @@ const swaggerOptions: Options = {
           "APIs related to user operations (e.g., registration, login, get-user)",
       },
     ],
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        BearerAuth: [],
+      },
+    ],
   },
   apis: [],
 };
