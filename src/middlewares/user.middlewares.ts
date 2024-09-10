@@ -35,3 +35,19 @@ export const loginUserMiddleware = (
   }
   next();
 };
+
+export const userUpdateMiddleWare = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { password } = req.body;
+  if (password) {
+    return res.status(400).json(
+      apiResponse.ERROR({
+        password: password ? "Password can not update" : undefined,
+      })
+    );
+  }
+  next();
+};

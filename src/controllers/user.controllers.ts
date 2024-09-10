@@ -78,3 +78,30 @@ export const getUserInfoController = async (
     return res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const updateUserInfoController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const userId = req.user._id;
+    const updatedUser = await UserModal.findByIdAndUpdate(userId, req.body, {
+      new: true,
+    }).select("-password");
+
+    if (!updatedUser) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("user_not_found", "User not found"));
+    }
+
+    res.json(
+      apiResponse.SUCCESS(
+        { user: updatedUser },
+        "User information updated successfully"
+      )
+    );
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};
