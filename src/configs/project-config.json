@@ -1,0 +1,13 @@
+{
+  "project": {
+    "name": "SMS",
+    "node-version": "v18.20.3",
+    "yarn-version": "1.22.22",
+    "npm-version": "10.8.3",
+    "project commands": {
+      "developement": "yarn run dev",
+      "production": "yarn start",
+      "build": "yarn run build"
+    }
+  }
+}
