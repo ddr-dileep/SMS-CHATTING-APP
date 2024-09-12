@@ -68,7 +68,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 - run the application
 
 ```bash
-  npm run dev
+  yarn run dev
 ```
 
 <!-- MARKDOWN LINKS & IMAGES -->
