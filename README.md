@@ -36,6 +36,41 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 - Email: [ddr.dileepraloti@gmail.com](mailto:ddr.dileepraloti@gmail.com)
 - LinkedIn: [Dileep](https://linkedin.com/in/dileep-raloti)
 
+## Tech Stack
+
+**Server:** Node, Express,
+
+**Server:** TypeScript
+
+**Database:** Mongo DB
+
+
+## Run Locally
+
+- Clone the project
+
+```bash
+  git clone https://github.com/ddr-dileep/SMS-CHATTING-APP
+```
+
+- Go to the project directory
+
+```bash
+  cd SMS-CHATTING-APP
+```
+
+- Install dependencies
+
+```bash
+  yarn install
+```
+
+- run the application
+
+```bash
+  npm run dev
+```
+
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [youtube-shield]: https://img.shields.io/badge/-Youtube-black.svg?style=round-square&logo=youtube&color=555&logoColor=white
