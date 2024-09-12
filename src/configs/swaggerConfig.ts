@@ -23,7 +23,7 @@ const swaggerOptions: Options = {
     },
     tags: [
       {
-        name: "Auth",
+        name: "User",
         description:
           "APIs related to user operations (e.g., registration, login, get-user)",
       },

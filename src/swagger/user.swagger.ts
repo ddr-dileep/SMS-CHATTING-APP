@@ -2,7 +2,7 @@ export const userSwagger = {
   "/api/v1/user/register": {
     tag: "User",
     post: {
-      tags: ["Auth"],
+      tags: ["User"],
       summary: "Register a new user",
       description: "API to register a new user with required details.",
       requestBody: {
@@ -41,7 +41,7 @@ export const userSwagger = {
   },
   "/api/v1/user/login": {
     post: {
-      tags: ["Auth"],
+      tags: ["User"],
       summary: "Login user",
       description: "API to login user with required details.",
       requestBody: {
@@ -76,7 +76,7 @@ export const userSwagger = {
   },
   "/api/v1/user/user-info": {
     get: {
-      tags: ["Auth"],
+      tags: ["User"],
       summary: "Get user information",
       description: "API to get user information using a Bearer token.",
       security: [
@@ -116,7 +116,7 @@ export const userSwagger = {
   },
   "/api/v1/user/update-info": {
     patch: {
-      tags: ["Auth"],
+      tags: ["User"],
       summary: "Update user information",
       description: "API to update user information using a Bearer token.",
       security: [
@@ -165,7 +165,7 @@ export const userSwagger = {
   },
   "/api/v1/user/delete-info": {
     delete: {
-      tags: ["Auth"],
+      tags: ["User"],
       summary: "Delete user information",
       description: "API to delete user information using a Bearer token.",
       security: [
@@ -182,6 +182,123 @@ export const userSwagger = {
         },
         "404": {
           description: "Not found (User not found)",
+        },
+        "500": {
+          description: "Server error",
+        },
+      },
+    },
+  },
+  "/api/v1/user/get-all": {
+    get: {
+      tags: ["User"],
+      summary: "Get all users",
+      description:
+        "API to get a list of all users, excluding the current user, using a Bearer token.",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      responses: {
+        "200": {
+          description: "List of users retrieved successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  count: {
+                    type: "integer",
+                    example: 10,
+                  },
+                  users: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        username: {
+                          type: "string",
+                          example: "johndoe",
+                        },
+                        email: {
+                          type: "string",
+                          example: "johndoe@example.com",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "401": {
+          description: "Unauthorized (Invalid or missing token)",
+        },
+        "500": {
+          description: "Server error",
+        },
+      },
+    },
+  },
+  "/api/v1/user/all-user": {
+    get: {
+      tags: ["User"],
+      summary: "Search users",
+      description:
+        "API to search for users by username or email using a Bearer token.",
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+      parameters: [
+        {
+          name: "search",
+          in: "query",
+          required: true,
+          schema: {
+            type: "string",
+            example: "johndoe",
+          },
+        },
+      ],
+      responses: {
+        "200": {
+          description: "Search results retrieved successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  count: {
+                    type: "integer",
+                    example: 5,
+                  },
+                  users: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        username: {
+                          type: "string",
+                          example: "johndoe",
+                        },
+                        email: {
+                          type: "string",
+                          example: "johndoe@example.com",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "401": {
+          description: "Unauthorized (Invalid or missing token)",
         },
         "500": {
           description: "Server error",
