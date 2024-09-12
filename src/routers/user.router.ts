@@ -6,9 +6,11 @@ import {
 } from "../middlewares/user.middlewares";
 import {
   deleteUserInfoController,
+  getAllUsersController,
   getUserInfoController,
   loginUserController,
   registerUserController,
+  searchUsersControllers,
   updateUserInfoController,
 } from "../controllers/user.controllers";
 import { authTokenMiddleware } from "../utils/token";
@@ -29,5 +31,7 @@ userRouter.delete(
   authTokenMiddleware,
   deleteUserInfoController
 );
+userRouter.get("/get-all", authTokenMiddleware, getAllUsersController);
+userRouter.get("/all-user", authTokenMiddleware, searchUsersControllers);
 
 export default userRouter;

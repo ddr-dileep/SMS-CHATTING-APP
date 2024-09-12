@@ -130,3 +130,64 @@ export const deleteUserInfoController = async (
     return res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const searchUsersControllers = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const searchQuery = req.query.search as string;
+    const keyword = searchQuery
+      ? {
+          $or: [
+            { username: { $regex: searchQuery, $options: "i" } },
+            { email: { $regex: searchQuery, $options: "i" } },
+          ],
+        }
+      : {};
+
+    // Fetch users excluding the current user
+    const users = await UserModal.find(keyword)
+      .find({
+        _id: { $ne: req.user._id },
+      })
+      .select("-password");
+
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS(
+          { count: users.length, users },
+          "User found successfully"
+        )
+      );
+  } catch (error: any) {
+    res
+      .status(500)
+      .json(
+        apiResponse.ERROR(
+          "An error occurred while searching for users.",
+          error.message
+        )
+      );
+  }
+};
+
+export const getAllUsersController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const users = await UserModal.find().select("-password");
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS(
+          { count: users.length, users },
+          "user found successfully"
+        )
+      );
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};

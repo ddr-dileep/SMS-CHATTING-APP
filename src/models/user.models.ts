@@ -26,7 +26,7 @@ const userSchema: Schema = new Schema(
 const UserModal = mongoose.model<Iuser>("User", userSchema);
 export default UserModal;
 
-interface Iuser extends Document {
+export interface Iuser extends Document {
   username: string;
   email: string;
   password: string;
