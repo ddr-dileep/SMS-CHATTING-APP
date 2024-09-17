@@ -3,8 +3,8 @@ import { Iuser } from "./user.models";
 
 const chatSchema: Schema = new Schema(
   {
-    isGroupChat: { type: Boolean, default: false },
     name: { type: String, trim: true, required: true },
+    isGroupChat: { type: Boolean, default: false },
     users: [
       {
         type: Schema.Types.ObjectId,
@@ -27,7 +27,7 @@ const chatModel = model<IChat>("Chat", chatSchema);
 export default chatModel;
 
 export interface IChat extends Document {
-  chatName: string;
+  name: string;
   isGroupChat: boolean;
   users: Iuser[];
   latestMessage: any;
