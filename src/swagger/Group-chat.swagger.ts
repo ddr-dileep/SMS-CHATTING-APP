@@ -1,5 +1,5 @@
 export const groupChatSwagger = {
-  "/api/v1/chat/create-group": {
+  "/chat/create-group": {
     post: {
       tags: ["Group-chat"],
       summary: "Create a new group chat",
