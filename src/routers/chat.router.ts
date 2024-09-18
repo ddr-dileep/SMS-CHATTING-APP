@@ -2,7 +2,9 @@ import { Router } from "express";
 import { authTokenMiddleware } from "../utils/token";
 import {
   addUserToGroupController,
+  createChatController,
   createGroupController,
+  deleteGroupController,
   getAllChatsControllers,
   getOneChatController,
   removeUserToGroupController,
@@ -21,6 +23,11 @@ chatRouters.post(
   createGroupMiddleware,
   authTokenMiddleware,
   createGroupController
+);
+chatRouters.delete(
+  "/delete-group/:groupId",
+  authTokenMiddleware,
+  deleteGroupController
 );
 chatRouters.post(
   "/add-member",
@@ -41,5 +48,10 @@ chatRouters.patch(
   updateChatInfoController
 );
 chatRouters.get("/get-all-chat", authTokenMiddleware, getAllChatsControllers);
+chatRouters.post(
+  "/create/:receiverId",
+  authTokenMiddleware,
+  createChatController
+);
 
 export default chatRouters;
