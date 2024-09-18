@@ -212,4 +212,104 @@ export const messageSwagger = {
       },
     },
   },
+
+  "message/update-message/{messageId}": {
+    put: {
+      tags: ["Message"],
+      summary: "Update a specific message",
+      description: "Updates the content of a message identified by its ID.",
+      parameters: [
+        {
+          name: "messageId",
+          in: "path",
+          required: true,
+          description: "ID of the message to update",
+          schema: {
+            type: "string",
+            example: "650f776e9e1dbf001a639ed5",
+          },
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                content: {
+                  type: "string",
+                  example: "Updated message content.",
+                },
+              },
+              required: ["content"],
+            },
+          },
+        },
+      },
+      responses: {
+        "200": {
+          description: "Message updated successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "Message updated successfully",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      message: {
+                        type: "object",
+                        properties: {
+                          _id: {
+                            type: "string",
+                            example: "650f776e9e1dbf001a639ed5",
+                          },
+                          content: {
+                            type: "string",
+                            example: "Updated message content.",
+                          },
+                          sender: {
+                            type: "object",
+                            properties: {
+                              username: { type: "string" },
+                              profilePicture: { type: "string" },
+                              _id: { type: "string" },
+                            },
+                          },
+                          chat: { type: "object" }, // Populate chat details as needed
+                          createdAt: {
+                            type: "string",
+                            format: "date-time",
+                            example: "2024-09-18T07:35:25.421Z",
+                          },
+                          updatedAt: {
+                            type: "string",
+                            format: "date-time",
+                            example: "2024-09-18T07:35:25.421Z",
+                          },
+                          __v: { type: "number", example: 0 },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "404": {
+          description: "Message not found",
+        },
+        "400": {
+          description: "Bad request or other errors",
+        },
+      },
+    },
+  },
 };
