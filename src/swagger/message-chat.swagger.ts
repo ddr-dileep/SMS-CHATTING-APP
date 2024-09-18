@@ -312,4 +312,87 @@ export const messageSwagger = {
       },
     },
   },
+
+  "/get-message/{messageId}": {
+    get: {
+      tags: ["Message"],
+      summary: "Get a specific message by ID",
+      description: "Retrieve a message's details by its ID.",
+      parameters: [
+        {
+          name: "messageId",
+          in: "path",
+          required: true,
+          description: "ID of the message to retrieve",
+          schema: {
+            type: "string",
+            example: "650f776e9e1dbf001a639ed5",
+          },
+        },
+      ],
+      responses: {
+        "200": {
+          description: "Message retrieved successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "Message retrieved successfully",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      message: {
+                        type: "object",
+                        properties: {
+                          _id: {
+                            type: "string",
+                            example: "650f776e9e1dbf001a639ed5",
+                          },
+                          content: {
+                            type: "string",
+                            example: "Hello, this is a test message.",
+                          },
+                          sender: {
+                            type: "object",
+                            properties: {
+                              username: { type: "string" },
+                              profilePicture: { type: "string" },
+                              _id: { type: "string" },
+                            },
+                          },
+                          chat: { type: "object" }, // Populate chat details as needed
+                          createdAt: {
+                            type: "string",
+                            format: "date-time",
+                            example: "2024-09-18T07:35:25.421Z",
+                          },
+                          updatedAt: {
+                            type: "string",
+                            format: "date-time",
+                            example: "2024-09-18T07:35:25.421Z",
+                          },
+                          __v: { type: "number", example: 0 },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "404": {
+          description: "Message not found",
+        },
+        "400": {
+          description: "Bad request or other errors",
+        },
+      },
+    },
+  },
 };
