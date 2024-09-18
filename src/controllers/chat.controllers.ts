@@ -37,3 +37,63 @@ export const createGroupController = async (
     return res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const addUserToGroupController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { userId, chatId } = req.body;
+
+    const group = await chatModel
+      .findById(chatId)
+      .populate("users", "_id username email profilePicture");
+
+    if (!group) {
+      return res
+        .status(400)
+        .json(apiResponse.ERROR("not found", "Chat not found"));
+    }
+
+    const isUserAlreadyInGroup = group.users.some(
+      (user: any) => user._id.toString() === userId
+    );
+
+    if (isUserAlreadyInGroup) {
+      return res
+        .status(400)
+        .json(
+          apiResponse.ERROR(
+            "duplicate",
+            "User is already a member of the group"
+          )
+        );
+    }
+
+    group.users.push(userId);
+    await group.save();
+
+    res.json(
+      apiResponse.SUCCESS({ group }, "User added to the group successfully")
+    );
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
+export const getAllChatsControllers = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const chats = await chatModel
+      .find({
+        $or: [{ users: { $in: [req.user._id] } }, { groupAdmin: req.user._id }],
+      })
+      .populate("users", "_id username email profilePicture");
+
+    res.json(apiResponse.SUCCESS({ chats }, "Chats fetched successfully"));
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};

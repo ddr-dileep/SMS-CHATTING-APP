@@ -1,7 +1,14 @@
 import { Router } from "express";
 import { authTokenMiddleware } from "../utils/token";
-import { createGroupController } from "../controllers/chat.controllers";
-import { createGroupMiddleware } from "../middlewares/chat.middlewares";
+import {
+  addUserToGroupController,
+  createGroupController,
+  getAllChatsControllers,
+} from "../controllers/chat.controllers";
+import {
+  addMemberToGroupMiddleware,
+  createGroupMiddleware,
+} from "../middlewares/chat.middlewares";
 
 const chatRouters = Router();
 
@@ -11,5 +18,12 @@ chatRouters.post(
   authTokenMiddleware,
   createGroupController
 );
+chatRouters.post(
+  "/add-member",
+  addMemberToGroupMiddleware,
+  authTokenMiddleware,
+  addUserToGroupController
+);
+chatRouters.get("/get-all-chat", authTokenMiddleware, getAllChatsControllers);
 
 export default chatRouters;

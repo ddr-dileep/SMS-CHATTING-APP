@@ -20,3 +20,20 @@ export const createGroupMiddleware = async (
   }
   next();
 };
+
+export const addMemberToGroupMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId, chatId } = req.body;
+  if (!userId || !chatId) {
+    return res.status(400).json(
+      apiResponse.ERROR({
+        userId: userId ? undefined : "User-Id is required",
+        chatId: chatId ? undefined : "Chat-Id is required",
+      })
+    );
+  }
+  next();
+};
