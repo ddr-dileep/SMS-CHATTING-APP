@@ -816,4 +816,122 @@ export const groupChatSwagger = {
       },
     },
   },
+
+  "/chat/create/{receiverId}": {
+    post: {
+      tags: ["Chat"],
+      summary: "Create a new chat with a specific user",
+      description:
+        "Creates a new chat between the authenticated user and the specified receiver. If a chat already exists, it will return the existing chat.",
+      parameters: [
+        {
+          name: "receiverId",
+          in: "path",
+          required: true,
+          schema: {
+            type: "string",
+            example: "66e049ecea2be74fb465300f",
+          },
+        },
+      ],
+      responses: {
+        "200": {
+          description: "Chat created or found successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: {
+                    type: "boolean",
+                    example: true,
+                  },
+                  message: {
+                    type: "string",
+                    example: "Chat created successfully",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      chat: {
+                        type: "object",
+                        properties: {
+                          name: {
+                            type: "string",
+                            example: "single-sender-receiver",
+                          },
+                          users: {
+                            type: "array",
+                            items: {
+                              type: "object",
+                              properties: {
+                                username: {
+                                  type: "string",
+                                  example: "john_doe",
+                                },
+                                email: {
+                                  type: "string",
+                                  example: "john_doe@example.com",
+                                },
+                                _id: {
+                                  type: "string",
+                                  example: "66e049ecea2be74fb465300f",
+                                },
+                                profilePicture: {
+                                  type: "string",
+                                  example: "https://example.com/profile.jpg",
+                                },
+                              },
+                            },
+                          },
+                          _id: {
+                            type: "string",
+                            example: "66ea82bd4f5b7fbb07a03e26",
+                          },
+                          createdAt: {
+                            type: "string",
+                            format: "date-time",
+                            example: "2024-09-18T07:35:25.421Z",
+                          },
+                          updatedAt: {
+                            type: "string",
+                            format: "date-time",
+                            example: "2024-09-18T07:35:25.421Z",
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "400": {
+          description: "Bad request (missing parameters or other errors)",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: {
+                    type: "boolean",
+                    example: false,
+                  },
+                  message: {
+                    type: "string",
+                    example: "Receiver ID is required",
+                  },
+                  error: {
+                    type: "string",
+                    example: "missing_params",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
