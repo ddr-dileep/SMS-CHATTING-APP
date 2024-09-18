@@ -322,4 +322,129 @@ export const groupChatSwagger = {
       },
     },
   },
+
+  "/chat/remove-member": {
+    post: {
+      tags: ["Group-chat"],
+      summary: "Remove a member from a group chat",
+      description:
+        "Removes a user from a group chat. Only authenticated users can remove members.",
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                userId: {
+                  type: "string",
+                  example: "66e049ecea2be74fb465300f",
+                  description: "ID of the user to be removed",
+                },
+                chatId: {
+                  type: "string",
+                  example: "66ea82bd4f5b7fbb07a03e26",
+                  description: "ID of the group chat",
+                },
+              },
+              required: ["userId", "chatId"],
+            },
+          },
+        },
+      },
+      responses: {
+        "200": {
+          description: "User removed from the group successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "User removed from the group successfully",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      group: {
+                        type: "object",
+                        properties: {
+                          _id: {
+                            type: "string",
+                            example: "66ea82bd4f5b7fbb07a03e26",
+                          },
+                          users: {
+                            type: "array",
+                            items: {
+                              type: "object",
+                              properties: {
+                                _id: {
+                                  type: "string",
+                                  example: "66e049ecea2be74fb465300f",
+                                },
+                                username: {
+                                  type: "string",
+                                  example: "john_doe",
+                                },
+                                email: {
+                                  type: "string",
+                                  example: "john.doe@example.com",
+                                },
+                                profilePicture: {
+                                  type: "string",
+                                  example: "https://example.com/john-pic.webp",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "400": {
+          description: "Bad request or validation error",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: {
+                    type: "string",
+                    example: "User is not part of the group or already removed",
+                  },
+                  error: { type: "string", example: "not found" },
+                },
+              },
+            },
+          },
+        },
+        "404": {
+          description: "Group not found",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: {
+                    type: "string",
+                    example: "Chat not found",
+                  },
+                  error: { type: "string", example: "not found" },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
