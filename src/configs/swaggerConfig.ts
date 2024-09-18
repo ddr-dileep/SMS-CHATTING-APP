@@ -34,8 +34,8 @@ const swaggerOptions: Options = {
           "APIs related to user operations (e.g., registration, login, get-user)",
       },
       {
-        name: "Group-chat",
-        description: "APIs related to Group-Chat",
+        name: "Chat",
+        description: "APIs related to Chat",
       },
       {
         name: "Message",

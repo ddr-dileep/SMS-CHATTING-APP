@@ -1,7 +1,7 @@
 export const groupChatSwagger = {
   "/chat/create-group": {
     post: {
-      tags: ["Group-chat"],
+      tags: ["Chat"],
       summary: "Create a group chat",
       description:
         "Authenticated users can create a group chat and become the admin.",
@@ -105,7 +105,7 @@ export const groupChatSwagger = {
 
   "/chat/delete-group/{groupId}": {
     delete: {
-      tags: ["Group-chat"],
+      tags: ["Chat"],
       summary: "Delete a group chat",
       description:
         "Deletes a group chat if the authenticated user is the group admin.",
@@ -200,7 +200,7 @@ export const groupChatSwagger = {
 
   "/chat/add-member": {
     post: {
-      tags: ["Group-chat"],
+      tags: ["Chat"],
       summary: "Add a member to a group chat",
       description:
         "Adds a user to a group chat. Only authenticated users can add members to a group.",
@@ -325,7 +325,7 @@ export const groupChatSwagger = {
 
   "/chat/remove-member": {
     post: {
-      tags: ["Group-chat"],
+      tags: ["Chat"],
       summary: "Remove a member from a group chat",
       description:
         "Removes a user from a group chat. Only authenticated users can remove members.",
@@ -450,7 +450,7 @@ export const groupChatSwagger = {
 
   "/chat/get-chat/{chatId}": {
     get: {
-      tags: ["Group-chat"],
+      tags: ["Chat"],
       summary: "Get details of a specific chat",
       description:
         "Fetches the details of a specific chat by its ID. Only authenticated users can fetch chat details.",
@@ -585,7 +585,7 @@ export const groupChatSwagger = {
 
   "/chat/update-chat/{chatId}": {
     patch: {
-      tags: ["Group-chat"],
+      tags: ["Chat"],
       summary: "Update chat information",
       description:
         "Updates the name or group profile picture of a specific chat. Only authenticated users can update chat information.",
@@ -729,7 +729,7 @@ export const groupChatSwagger = {
 
   "/chat/get-all-chat": {
     get: {
-      tags: ["Group-chat"],
+      tags: ["Chat"],
       summary: "Fetch all chats for the authenticated user",
       description:
         "Retrieves all the chats that the authenticated user is either a member of or the admin of.",
