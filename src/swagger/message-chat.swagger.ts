@@ -213,7 +213,7 @@ export const messageSwagger = {
     },
   },
 
-  "/message/update-message/{messageId}": {
+  "/message/update-chat-messages/{messageId}": {
     put: {
       tags: ["Message"],
       summary: "Update a specific message",
@@ -313,7 +313,7 @@ export const messageSwagger = {
     },
   },
 
-  "/message/get-message/{messageId}": {
+  "/message/get-one-message/{messageId}": {
     get: {
       tags: ["Message"],
       summary: "Get a specific message by ID",
