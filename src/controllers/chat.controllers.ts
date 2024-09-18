@@ -81,6 +81,56 @@ export const addUserToGroupController = async (
   }
 };
 
+export const removeUserToGroupController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { userId, chatId } = req.body;
+
+    // Find the group to check if the user is exit
+    const group = await chatModel
+      .findById(chatId)
+      .populate("users", "_id username email profilePicture");
+
+    if (!group) {
+      return res
+        .status(400)
+        .json(apiResponse.ERROR("not found", "Chat not found"));
+    }
+
+    // Check if the user exists in the group
+    const userExists = group.users.some(
+      (user: any) => user._id.toString() === userId
+    );
+
+    if (!userExists) {
+      return res
+        .status(400)
+        .json(
+          apiResponse.ERROR(
+            "not found",
+            "User is not part of the group or already removed"
+          )
+        );
+    }
+
+    // If user exists, then remove user
+    const updatedGroup = await chatModel
+      .findByIdAndUpdate(chatId, { $pull: { users: userId } }, { new: true })
+      .populate("users", "_id username email profilePicture");
+
+    res.json(
+      apiResponse.SUCCESS(
+        { group: updatedGroup },
+        "User removed from the group successfully"
+      )
+    );
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
 export const getAllChatsControllers = async (
   req: Request | any,
   res: Response

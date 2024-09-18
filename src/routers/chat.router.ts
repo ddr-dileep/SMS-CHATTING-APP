@@ -4,10 +4,12 @@ import {
   addUserToGroupController,
   createGroupController,
   getAllChatsControllers,
+  removeUserToGroupController,
 } from "../controllers/chat.controllers";
 import {
   addMemberToGroupMiddleware,
   createGroupMiddleware,
+  removeMemberMiddleware,
 } from "../middlewares/chat.middlewares";
 
 const chatRouters = Router();
@@ -24,6 +26,13 @@ chatRouters.post(
   authTokenMiddleware,
   addUserToGroupController
 );
+chatRouters.post(
+  "/remove-member",
+  removeMemberMiddleware,
+  authTokenMiddleware,
+  removeUserToGroupController
+);
+// chatRouters.get("/get-chat/:chatId", authTokenMiddleware, getOneChatController);
 chatRouters.get("/get-all-chat", authTokenMiddleware, getAllChatsControllers);
 
 export default chatRouters;
