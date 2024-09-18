@@ -1,5 +1,5 @@
 export const userSwagger = {
-  "/api/v1/user/register": {
+  "/user/register": {
     tag: "User",
     post: {
       tags: ["User"],
@@ -39,7 +39,7 @@ export const userSwagger = {
       },
     },
   },
-  "/api/v1/user/login": {
+  "/user/login": {
     post: {
       tags: ["User"],
       summary: "Login user",
@@ -74,7 +74,7 @@ export const userSwagger = {
       },
     },
   },
-  "/api/v1/user/user-info": {
+  "/user/user-info": {
     get: {
       tags: ["User"],
       summary: "Get user information",
@@ -114,7 +114,7 @@ export const userSwagger = {
       },
     },
   },
-  "/api/v1/user/update-info": {
+  "/user/update-info": {
     patch: {
       tags: ["User"],
       summary: "Update user information",
@@ -163,7 +163,7 @@ export const userSwagger = {
       },
     },
   },
-  "/api/v1/user/delete-info": {
+  "/user/delete-info": {
     delete: {
       tags: ["User"],
       summary: "Delete user information",
@@ -189,7 +189,7 @@ export const userSwagger = {
       },
     },
   },
-  "/api/v1/user/get-all": {
+  "/user/get-all": {
     get: {
       tags: ["User"],
       summary: "Get all users",
@@ -242,7 +242,7 @@ export const userSwagger = {
       },
     },
   },
-  "/api/v1/user/all-user": {
+  "/user/all-user": {
     get: {
       tags: ["User"],
       summary: "Search users",
