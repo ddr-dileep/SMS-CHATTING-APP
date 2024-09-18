@@ -36,7 +36,7 @@ const swaggerOptions: Options = {
         description: "APIs related to Group-Chat",
       },
       {
-        name: "Message-Service",
+        name: "Message",
         description: "APIs related to Message",
       },
     ],
