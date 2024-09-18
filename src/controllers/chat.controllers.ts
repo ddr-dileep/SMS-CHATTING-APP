@@ -25,6 +25,7 @@ export const createGroupController = async (
 
     const reqBody = {
       ...req.body,
+      users: [...req.body.users, adminId],
       isGroupChat: true,
       groupAdmin: adminId,
     };
@@ -33,6 +34,79 @@ export const createGroupController = async (
     await group.save();
 
     res.json(apiResponse.SUCCESS({ group }, "Group created successfully"));
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
+export const deleteGroupController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { groupId } = req.params;
+    const adminId = req.user._id;
+
+    const group = await chatModel.findById(groupId);
+
+    if (!group) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not_found", "Group not found"));
+    }
+
+    if (group.groupAdmin.toString() !== adminId.toString()) {
+      return res
+        .status(403)
+        .json(apiResponse.ERROR("forbidden", "You are not the group admin"));
+    }
+
+    await chatModel.findByIdAndDelete(groupId);
+
+    res.json(apiResponse.SUCCESS({}, "Group deleted successfully"));
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
+export const createChatController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const senderId = req.user._id;
+    const { receiverId } = req.params;
+
+    if (!receiverId) {
+      return res
+        .status(400)
+        .json(apiResponse.ERROR("missing_params", "Receiver ID is required"));
+    }
+
+    // Check for an existing chat between the sender and receiver
+    const existingChat = await chatModel
+      .findOne({
+        users: { $all: [senderId, receiverId] },
+        $expr: { $eq: [{ $size: "$users" }, 2] },
+      })
+      .populate("users", "username email _id profilePicture");
+
+    if (existingChat) {
+      return res.json(
+        apiResponse.SUCCESS({ chat: existingChat }, "Chat already exists")
+      );
+    }
+
+    // Create a new chat if it doesn't exist
+    const chat = new chatModel({
+      name: "single-sender-receiver",
+      users: [senderId, receiverId],
+    });
+    await chat.save();
+
+    chat.populate("users", "username email _id profilePicture");
+
+    res.json(apiResponse.SUCCESS({ chat }, "Chat created successfully"));
   } catch (error) {
     return res.status(400).json(apiResponse.OTHER(error));
   }
