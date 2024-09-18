@@ -131,6 +131,30 @@ export const removeUserToGroupController = async (
   }
 };
 
+export const getOneChatController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const chatId = req.params.chatId;
+
+    const chat = await chatModel
+      .findById(chatId)
+      .populate("users", "_id username email profilePicture")
+      .populate("latestMessage");
+
+    if (!chat) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not found", "Chat not found"));
+    }
+
+    res.json(apiResponse.SUCCESS({ chat }, "Chat fetched successfully"));
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
 export const getAllChatsControllers = async (
   req: Request | any,
   res: Response

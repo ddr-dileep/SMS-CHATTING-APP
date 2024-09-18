@@ -4,6 +4,7 @@ import {
   addUserToGroupController,
   createGroupController,
   getAllChatsControllers,
+  getOneChatController,
   removeUserToGroupController,
 } from "../controllers/chat.controllers";
 import {
@@ -32,7 +33,7 @@ chatRouters.post(
   authTokenMiddleware,
   removeUserToGroupController
 );
-// chatRouters.get("/get-chat/:chatId", authTokenMiddleware, getOneChatController);
+chatRouters.get("/get-chat/:chatId", authTokenMiddleware, getOneChatController);
 chatRouters.get("/get-all-chat", authTokenMiddleware, getAllChatsControllers);
 
 export default chatRouters;
