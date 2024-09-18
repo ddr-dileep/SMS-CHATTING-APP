@@ -134,3 +134,68 @@ export const getOneMessageController = async (
     return res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const searchMessagesController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const chatId = req.query.chatId as string;
+    const searchText = req.query.searchText as string;
+    const userId = req.user._id; // Logged-in user's ID
+
+    let query: any;
+
+    if (chatId) {
+      // Search within a specific chat if chatId is provided
+      query = { chat: chatId };
+    } else {
+      // Search across all chats related to the logged-in user and their contacts
+      const userChats = await chatModel.find({ users: userId }).select("_id");
+      const chatIds = userChats.map((c) => c._id);
+
+      // Add chats where the user’s contacts have sent messages
+      const contactsChats = await chatModel
+        .find({ users: { $in: [userId] } })
+        .select("_id");
+      const allChatIds = [
+        ...new Set([...chatIds, ...contactsChats.map((c) => c._id)]),
+      ]; // Combine and deduplicate chat IDs
+
+      query = { chat: { $in: allChatIds } };
+    }
+
+    // If searchText is provided, search for messages containing parts of the text
+    if (searchText) {
+      query.content = {
+        $regex: searchText
+          .split(" ")
+          .map((word) => `.*${word}.*`)
+          .join("|"),
+        $options: "i",
+      };
+    }
+
+    const messages = await messageModel
+      .find(query)
+      .populate("sender", "username profilePicture _id")
+      .select("-__v -updatedAt")
+      .sort({ createdAt: -1 });
+
+    return res.json(
+      apiResponse.SUCCESS(
+        { count: messages.length, messages },
+        "Messages retrieved successfully"
+      )
+    );
+  } catch (error: any) {
+    return res
+      .status(500)
+      .json(
+        apiResponse.ERROR(
+          "search_error",
+          "An error occurred while searching for messages."
+        )
+      );
+  }
+};

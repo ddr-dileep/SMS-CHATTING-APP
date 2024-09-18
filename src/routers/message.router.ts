@@ -3,6 +3,7 @@ import {
   deleteMessageController,
   getAllmessagesController,
   getOneMessageController,
+  searchMessagesController,
   sendMessageController,
   updateMessageController,
 } from "../controllers/message.controllers";
@@ -31,5 +32,6 @@ messageRouter.get(
   authTokenMiddleware,
   getOneMessageController
 );
+messageRouter.get("/search", authTokenMiddleware, searchMessagesController);
 
 export default messageRouter;
