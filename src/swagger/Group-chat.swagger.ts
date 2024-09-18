@@ -197,4 +197,129 @@ export const groupChatSwagger = {
       },
     },
   },
+
+  "/chat/add-member": {
+    post: {
+      tags: ["Group-chat"],
+      summary: "Add a member to a group chat",
+      description:
+        "Adds a user to a group chat. Only authenticated users can add members to a group.",
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                userId: {
+                  type: "string",
+                  example: "66e049ecea2be74fb465300f",
+                  description: "ID of the user to be added",
+                },
+                chatId: {
+                  type: "string",
+                  example: "66ea82bd4f5b7fbb07a03e26",
+                  description: "ID of the group chat",
+                },
+              },
+              required: ["userId", "chatId"],
+            },
+          },
+        },
+      },
+      responses: {
+        "200": {
+          description: "User added to the group successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "User added to the group successfully",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      group: {
+                        type: "object",
+                        properties: {
+                          _id: {
+                            type: "string",
+                            example: "66ea82bd4f5b7fbb07a03e26",
+                          },
+                          users: {
+                            type: "array",
+                            items: {
+                              type: "object",
+                              properties: {
+                                _id: {
+                                  type: "string",
+                                  example: "66e049ecea2be74fb465300f",
+                                },
+                                username: {
+                                  type: "string",
+                                  example: "john_doe",
+                                },
+                                email: {
+                                  type: "string",
+                                  example: "john.doe@example.com",
+                                },
+                                profilePicture: {
+                                  type: "string",
+                                  example: "https://example.com/john-pic.webp",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "400": {
+          description: "Bad request or validation error",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: {
+                    type: "string",
+                    example: "User is already a member of the group",
+                  },
+                  error: { type: "string", example: "duplicate" },
+                },
+              },
+            },
+          },
+        },
+        "404": {
+          description: "Group not found",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: {
+                    type: "string",
+                    example: "Chat not found",
+                  },
+                  error: { type: "string", example: "not found" },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
