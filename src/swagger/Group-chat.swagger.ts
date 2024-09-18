@@ -447,4 +447,139 @@ export const groupChatSwagger = {
       },
     },
   },
+
+  "/chat/get-chat/{chatId}": {
+    get: {
+      tags: ["Group-chat"],
+      summary: "Get details of a specific chat",
+      description:
+        "Fetches the details of a specific chat by its ID. Only authenticated users can fetch chat details.",
+      parameters: [
+        {
+          name: "chatId",
+          in: "path",
+          required: true,
+          schema: {
+            type: "string",
+            example: "66ea82bd4f5b7fbb07a03e26",
+          },
+          description: "ID of the chat to fetch",
+        },
+      ],
+      responses: {
+        "200": {
+          description: "Chat fetched successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "Chat fetched successfully",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      chat: {
+                        type: "object",
+                        properties: {
+                          _id: {
+                            type: "string",
+                            example: "66ea82bd4f5b7fbb07a03e26",
+                          },
+                          users: {
+                            type: "array",
+                            items: {
+                              type: "object",
+                              properties: {
+                                _id: {
+                                  type: "string",
+                                  example: "66e049ecea2be74fb465300f",
+                                },
+                                username: {
+                                  type: "string",
+                                  example: "john_doe",
+                                },
+                                email: {
+                                  type: "string",
+                                  example: "john.doe@example.com",
+                                },
+                                profilePicture: {
+                                  type: "string",
+                                  example: "https://example.com/john-pic.webp",
+                                },
+                              },
+                            },
+                          },
+                          latestMessage: {
+                            type: "object",
+                            properties: {
+                              _id: {
+                                type: "string",
+                                example: "66f2d2fead7b7d102a50678d",
+                              },
+                              content: {
+                                type: "string",
+                                example: "Hello, how are you?",
+                              },
+                              sender: {
+                                type: "string",
+                                example: "66e049ecea2be74fb465300f",
+                              },
+                              createdAt: {
+                                type: "string",
+                                example: "2024-08-10T10:30:00Z",
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "404": {
+          description: "Chat not found",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: {
+                    type: "string",
+                    example: "Chat not found",
+                  },
+                  error: { type: "string", example: "not found" },
+                },
+              },
+            },
+          },
+        },
+        "400": {
+          description: "Bad request",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: {
+                    type: "string",
+                    example: "Invalid request",
+                  },
+                  error: { type: "string", example: "error details" },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
