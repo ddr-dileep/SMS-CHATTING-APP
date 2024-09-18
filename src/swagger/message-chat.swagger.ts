@@ -313,7 +313,7 @@ export const messageSwagger = {
     },
   },
 
-  "/get-message/{messageId}": {
+  "/message/get-message/{messageId}": {
     get: {
       tags: ["Message"],
       summary: "Get a specific message by ID",
