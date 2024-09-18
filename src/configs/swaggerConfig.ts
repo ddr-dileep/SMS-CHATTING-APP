@@ -1,5 +1,7 @@
 import { Options } from "swagger-jsdoc";
 import { userSwagger } from "../swagger/user.swagger";
+import { groupChatSwagger } from "../swagger/Group-chat.swagger";
+import { messageSwagger } from "../swagger/message-chat.swagger";
 
 const swaggerOptions: Options = {
   swaggerDefinition: {
@@ -20,12 +22,22 @@ const swaggerOptions: Options = {
     ],
     paths: {
       ...userSwagger,
+      ...groupChatSwagger,
+      ...messageSwagger,
     },
     tags: [
       {
         name: "User",
         description:
           "APIs related to user operations (e.g., registration, login, get-user)",
+      },
+      {
+        name: "Group-chat",
+        description: "APIs related to Group-Chat",
+      },
+      {
+        name: "Message-Service",
+        description: "APIs related to Message",
       },
     ],
     components: {
