@@ -726,4 +726,94 @@ export const groupChatSwagger = {
       },
     },
   },
+
+  "/chat/get-all-chat": {
+    get: {
+      tags: ["Group-chat"],
+      summary: "Fetch all chats for the authenticated user",
+      description:
+        "Retrieves all the chats that the authenticated user is either a member of or the admin of.",
+      parameters: [],
+      responses: {
+        "200": {
+          description: "Chats fetched successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "Chats fetched successfully",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      chats: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            _id: {
+                              type: "string",
+                              example: "66ea82bd4f5b7fbb07a03e26",
+                            },
+                            users: {
+                              type: "array",
+                              items: {
+                                type: "object",
+                                properties: {
+                                  _id: {
+                                    type: "string",
+                                    example: "66e049ecea2be74fb465300f",
+                                  },
+                                  username: {
+                                    type: "string",
+                                    example: "john_doe",
+                                  },
+                                  email: {
+                                    type: "string",
+                                    example: "john.doe@example.com",
+                                  },
+                                  profilePicture: {
+                                    type: "string",
+                                    example:
+                                      "https://example.com/john-pic.webp",
+                                  },
+                                },
+                              },
+                            },
+                            groupAdmin: {
+                              type: "string",
+                              example: "66e049ecea2be74fb465300f",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "400": {
+          description: "Bad request",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: { type: "string", example: "Invalid request" },
+                  error: { type: "string", example: "error details" },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
