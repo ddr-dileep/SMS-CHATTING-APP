@@ -582,4 +582,148 @@ export const groupChatSwagger = {
       },
     },
   },
+
+  "/chat/update-chat/{chatId}": {
+    patch: {
+      tags: ["Group-chat"],
+      summary: "Update chat information",
+      description:
+        "Updates the name or group profile picture of a specific chat. Only authenticated users can update chat information.",
+      parameters: [
+        {
+          name: "chatId",
+          in: "path",
+          required: true,
+          schema: {
+            type: "string",
+            example: "66ea82bd4f5b7fbb07a03e26",
+          },
+          description: "ID of the chat to update",
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                  example: "Updated Chat Name",
+                  description: "New name for the chat group",
+                },
+                groupChatProfilePicture: {
+                  type: "string",
+                  example: "https://example.com/new-chat-pic.webp",
+                  description: "New profile picture URL for the chat group",
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        "200": {
+          description: "Chat information updated successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "Chat information updated successfully",
+                  },
+                  data: {
+                    type: "object",
+                    properties: {
+                      chat: {
+                        type: "object",
+                        properties: {
+                          _id: {
+                            type: "string",
+                            example: "66ea82bd4f5b7fbb07a03e26",
+                          },
+                          name: {
+                            type: "string",
+                            example: "Updated Chat Name",
+                          },
+                          groupChatProfilePicture: {
+                            type: "string",
+                            example: "https://example.com/new-chat-pic.webp",
+                          },
+                          users: {
+                            type: "array",
+                            items: {
+                              type: "object",
+                              properties: {
+                                _id: {
+                                  type: "string",
+                                  example: "66e049ecea2be74fb465300f",
+                                },
+                                username: {
+                                  type: "string",
+                                  example: "john_doe",
+                                },
+                                email: {
+                                  type: "string",
+                                  example: "john.doe@example.com",
+                                },
+                                profilePicture: {
+                                  type: "string",
+                                  example: "https://example.com/john-pic.webp",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        "404": {
+          description: "Chat not found",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: {
+                    type: "string",
+                    example: "Chat not found",
+                  },
+                  error: { type: "string", example: "not found" },
+                },
+              },
+            },
+          },
+        },
+        "400": {
+          description: "Bad request",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  success: { type: "boolean", example: false },
+                  message: {
+                    type: "string",
+                    example: "Invalid request",
+                  },
+                  error: { type: "string", example: "error details" },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
