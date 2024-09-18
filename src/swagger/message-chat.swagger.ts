@@ -1,5 +1,5 @@
 export const messageSwagger = {
-  "/api/v1/message/send-message": {
+  "/message/send-message": {
     post: {
       tags: ["Message"],
       summary: "Send a message in a chat",
