@@ -136,7 +136,7 @@ export const messageSwagger = {
     },
   },
 
-  "message/delete-message/{messageId}": {
+  "/message/delete-message/{messageId}": {
     delete: {
       tags: ["Message"],
       summary: "Delete a specific message",
@@ -213,7 +213,7 @@ export const messageSwagger = {
     },
   },
 
-  "message/update-message/{messageId}": {
+  "/message/update-message/{messageId}": {
     put: {
       tags: ["Message"],
       summary: "Update a specific message",
