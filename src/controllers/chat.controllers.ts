@@ -155,6 +155,39 @@ export const getOneChatController = async (
   }
 };
 
+export const updateChatInfoController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const chatId = req.params.chatId;
+    const { name, groupChatProfilePicture } = req.body;
+
+    const updatedChat = await chatModel
+      .findByIdAndUpdate(
+        chatId,
+        { name, groupChatProfilePicture },
+        { new: true }
+      )
+      .populate("users", "_id username email profilePicture");
+
+    if (!updatedChat) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not found", "Chat not found"));
+    }
+
+    res.json(
+      apiResponse.SUCCESS(
+        { chat: updatedChat },
+        "Chat information updated successfully"
+      )
+    );
+  } catch (error) {
+    return res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
 export const getAllChatsControllers = async (
   req: Request | any,
   res: Response

@@ -6,6 +6,7 @@ import {
   getAllChatsControllers,
   getOneChatController,
   removeUserToGroupController,
+  updateChatInfoController,
 } from "../controllers/chat.controllers";
 import {
   addMemberToGroupMiddleware,
@@ -34,6 +35,11 @@ chatRouters.post(
   removeUserToGroupController
 );
 chatRouters.get("/get-chat/:chatId", authTokenMiddleware, getOneChatController);
+chatRouters.patch(
+  "/update-chat/:chatId",
+  authTokenMiddleware,
+  updateChatInfoController
+);
 chatRouters.get("/get-all-chat", authTokenMiddleware, getAllChatsControllers);
 
 export default chatRouters;

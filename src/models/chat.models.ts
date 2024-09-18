@@ -15,6 +15,11 @@ const chatSchema: Schema<IChat> = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Message",
     },
+    groupChatProfilePicture: {
+      type: String,
+      default:
+        "https://pics.craiyon.com/2023-11-24/nogjsbGmTRaAI8eYNclAQw.webp",
+    },
     groupAdmin: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -40,5 +45,6 @@ export interface IChat extends Document {
   users: Iuser[];
   usercount: number;
   latestMessage: any;
+  groupChatProfilePicture: string;
   groupAdmin: Iuser;
 }
