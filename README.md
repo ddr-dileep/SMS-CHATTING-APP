@@ -17,11 +17,7 @@
 ## Table of Contents
 
 - SMS app
-- Swagger docs ->
-
-```
-https://sms-chatting-app.onrender.com/api-docs/
-```
+- Swagger docs -> https://sms-chatting-app.onrender.com/api-docs/
 
 ## Create secreat string
 
