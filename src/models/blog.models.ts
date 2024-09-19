@@ -11,12 +11,14 @@ const blogSchema: Schema = new Schema(
     publishedAt: { type: Date, default: new Date() },
     isPublished: { type: Boolean, default: false },
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    category: {
-      type: Schema.Types.ObjectId,
-      ref: "Category",
-      required: true,
-      default: "public",
-    },
+    category: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Category",
+        required: true,
+        default: "public",
+      },
+    ],
     views: [{ type: Schema.Types.ObjectId, ref: "User" }],
     likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
     dislikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
