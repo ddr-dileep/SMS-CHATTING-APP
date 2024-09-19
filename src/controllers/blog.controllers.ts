@@ -37,3 +37,38 @@ export const getLastestBlogController = async (req: Request, res: Response) => {
       .json(apiResponse.ERROR("server_error", "something went wrong"));
   }
 };
+
+export const createBlogController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const existingBlog = await blogModel.findOne({
+      title: req.body.title,
+      author: req.user._id,
+    });
+
+    if (existingBlog) {
+      return res
+        .status(400)
+        .json(
+          apiResponse.ERROR(
+            "duplicate_post",
+            "Blog with the same title of author already exists"
+          )
+        );
+    }
+
+    const newBlog = new blogModel({ ...req.body, author: req.user._id });
+    await newBlog.save();
+    await newBlog.populate("author", "_id profilePicture username");
+
+    res
+      .status(201)
+      .json(
+        apiResponse.SUCCESS({ blog: newBlog }, "Blog created successfully")
+      );
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
