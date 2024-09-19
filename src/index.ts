@@ -44,4 +44,12 @@ io.on("connection", (socket) => {
     socket.join(userData._id);
     socket.emit("connected to server for chatting");
   });
+
+  socket.on("sendMessage", (data) => {
+    io.to(data.chatId).emit("newMessage", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
 });
