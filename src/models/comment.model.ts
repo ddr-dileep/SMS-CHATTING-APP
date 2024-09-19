@@ -18,7 +18,7 @@ const commentSchema: Schema = new Schema(
 const commentModel = model<IComment>("Comment", commentSchema);
 export default commentModel;
 
-interface IComment extends Document {
+export interface IComment extends Document {
   content: string;
   author: Iuser;
   blog: IBlog;

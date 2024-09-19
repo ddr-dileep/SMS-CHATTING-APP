@@ -1,4 +1,7 @@
-import { model, Schema } from "mongoose";
+import { Document, model, Schema } from "mongoose";
+import { Iuser } from "./user.models";
+import { ICategory } from "./category.models";
+import { IComment } from "./comment.model";
 
 const blogSchema: Schema = new Schema(
   {
@@ -32,4 +35,21 @@ const blogSchema: Schema = new Schema(
 const blogModel = model<IBlog>("Blog", blogSchema);
 export default blogModel;
 
-export interface IBlog extends Document {}
+export interface IBlog extends Document {
+  title: string;
+  subTitle: string;
+  content: string;
+  images: string[];
+  videos: string[];
+  tags: string[];
+  publishedAt: Date;
+  isPublished: boolean;
+  author: Iuser;
+  category: ICategory[];
+  views?: Iuser[];
+  likes?: Iuser[];
+  dislikes?: Iuser[];
+  sharedBy?: Iuser[];
+  sharedTo?: Iuser[];
+  comments?: IComment[];
+}
