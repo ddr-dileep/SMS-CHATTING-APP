@@ -6,6 +6,7 @@ import databaseConfig from "./configs/db.config";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerConfig from "./configs/swaggerConfig";
+import { Server } from "socket.io";
 
 dotenv.config();
 const app = express();
@@ -20,7 +21,27 @@ const port = process.env.PORT! || 3000;
 const swaggerDocs = swaggerJsDoc(swaggerConfig);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.listen(port, () => {
+const socketServer = app.listen(port, () => {
   databaseConfig();
   console.log(`Server is running on http://localhost:${port}`);
+});
+
+const io = new Server(socketServer, {
+  pingTimeout: 3000,
+  cors: {
+    origin: "http://localhost:5174",
+    methods: ["GET", "POST"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Authorization"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("connection established.................");
+
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
+    socket.emit("connected to server for chatting");
+  });
 });
