@@ -72,3 +72,127 @@ export const createBlogController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const updateBlogController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { blogId } = req.params;
+
+    const existingBlog: any = await blogModel.findOne({
+      title: req.body.title,
+      author: req.user._id,
+    });
+
+    if (existingBlog && existingBlog._id.toString() !== blogId) {
+      return res
+        .status(400)
+        .json(
+          apiResponse.ERROR(
+            "duplicate_post",
+            "Blog with the same title of author already exists"
+          )
+        );
+    }
+
+    const updatedBlog = await blogModel.findByIdAndUpdate(blogId, req.body, {
+      new: true,
+    });
+
+    if (!updatedBlog) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not_found", "Blog not found"));
+    }
+
+    await updatedBlog.populate("author", "_id profilePicture username");
+
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS({ blog: updatedBlog }, "Blog updated successfully")
+      );
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
+export const getOneBlogByIdController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { blogId } = req.params;
+    const blog = await blogModel.findById(blogId);
+
+    if (!blog) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not_found", "Blog not found"));
+    }
+
+    await blog.populate("author", "_id profilePicture username");
+
+    res
+      .status(200)
+      .json(apiResponse.SUCCESS({ blog }, "Blog fetched successfully"));
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
+export const deleteOneBlogByIdController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { blogId } = req.params;
+    const author = req.user._id;
+
+    const blog = await blogModel.findById(blogId);
+    if (!blog) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not_found", "Blog not found"));
+    }
+    if (blog.author.toString() !== author) {
+      return res
+        .status(403)
+        .json(
+          apiResponse.ERROR(
+            "forbidden",
+            "You are not authorized to delete this blog"
+          )
+        );
+    }
+
+    await blog.deleteOne();
+    res.status(200).json(apiResponse.SUCCESS({}, "Blog deleted successfully"));
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
+
+export const getAllBlogOfAuthorController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const authorId = req.user._id;
+    const blogs = await blogModel.find({ author: authorId });
+
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS(
+          { count: blogs.length, blogs },
+          "Blogs fetched successfully"
+        )
+      );
+  } catch (error) {
+    res
+      .status(500)
+      .json(apiResponse.ERROR("server_error", "something went wrong"));
+  }
+};

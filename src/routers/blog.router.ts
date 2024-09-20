@@ -1,8 +1,12 @@
 import { Router } from "express";
 import {
   createBlogController,
+  deleteOneBlogByIdController,
   getAllBlogController,
+  getAllBlogOfAuthorController,
   getLastestBlogController,
+  getOneBlogByIdController,
+  updateBlogController,
 } from "../controllers/blog.controllers";
 import { authTokenMiddleware } from "../utils/token";
 import { createBlogMiddleware } from "../middlewares/blog.middlewares";
@@ -16,6 +20,23 @@ blogRouters.post(
   createBlogMiddleware,
   authTokenMiddleware,
   createBlogController
+);
+blogRouters.patch(
+  "/update-blog/:blogId",
+  createBlogMiddleware,
+  authTokenMiddleware,
+  updateBlogController
+);
+blogRouters.get("/get-one-blog/:blogId", getOneBlogByIdController);
+blogRouters.delete(
+  "/delete-blog/:blogId",
+  authTokenMiddleware,
+  deleteOneBlogByIdController
+);
+blogRouters.get(
+  "/get-my-blogs",
+  authTokenMiddleware,
+  getAllBlogOfAuthorController
 );
 
 export default blogRouters;
