@@ -173,3 +173,26 @@ export const deleteOneBlogByIdController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const getAllBlogOfAuthorController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const authorId = req.user._id;
+    const blogs = await blogModel.find({ author: authorId });
+
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS(
+          { count: blogs.length, blogs },
+          "Blogs fetched successfully"
+        )
+      );
+  } catch (error) {
+    res
+      .status(500)
+      .json(apiResponse.ERROR("server_error", "something went wrong"));
+  }
+};

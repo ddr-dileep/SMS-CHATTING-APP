@@ -3,6 +3,7 @@ import {
   createBlogController,
   deleteOneBlogByIdController,
   getAllBlogController,
+  getAllBlogOfAuthorController,
   getLastestBlogController,
   getOneBlogByIdController,
   updateBlogController,
@@ -26,11 +27,16 @@ blogRouters.patch(
   authTokenMiddleware,
   updateBlogController
 );
-blogRouters.get("/:blogId", getOneBlogByIdController);
+blogRouters.get("/get-one-blog/:blogId", getOneBlogByIdController);
 blogRouters.delete(
-  "/:blogId",
+  "/delete-blog/:blogId",
   authTokenMiddleware,
   deleteOneBlogByIdController
+);
+blogRouters.get(
+  "/get-my-blogs",
+  authTokenMiddleware,
+  getAllBlogOfAuthorController
 );
 
 export default blogRouters;
