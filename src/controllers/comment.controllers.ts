@@ -8,7 +8,7 @@ export const createCommentController = async (
   res: Response
 ) => {
   try {
-    const { content, blog } = req.body;
+    const { content, blog, commentId } = req.body;
     const userId = req.user._id;
 
     const existingBlog: any = await blogModel.findById(blog);
@@ -23,7 +23,8 @@ export const createCommentController = async (
         );
     }
 
-    const newComment = new commentModel({
+    // Create a new comment
+    const newComment: any = new commentModel({
       content,
       author: userId,
       blog,
@@ -31,8 +32,29 @@ export const createCommentController = async (
 
     await newComment.save();
 
-    existingBlog.comments.push(newComment._id);
-    await existingBlog.save();
+    // If commentId is provided, add the new comment as a reply
+    if (commentId) {
+      const parentComment = await commentModel.findById(commentId);
+      if (!parentComment) {
+        return res
+          .status(400)
+          .json(
+            apiResponse.ERROR(
+              "invalid_comment",
+              "Parent comment does not exist"
+            )
+          );
+      }
+
+      // Add the new comment ID to the parent comment's replies
+      parentComment.replies.push(newComment._id);
+      await parentComment.save();
+    } else {
+      // If no commentId, just push the new comment to the blog's comments
+      existingBlog.comments.push(newComment._id);
+      await existingBlog.save();
+    }
+
     await newComment.populate("author", "username email profilePicture _id");
     await newComment.populate("blog", "title author");
 
@@ -201,6 +223,7 @@ export const getOneCommentByIdController = async (
     }
     await comment.populate("author", "username email profilePicture");
     await comment.populate("blog", "title author");
+    await comment.populate("replies");
     res.json(apiResponse.SUCCESS({ comment }, "Comment fetched"));
   } catch (error) {
     res.status(400).json(apiResponse.OTHER(error));
