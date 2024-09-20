@@ -3,6 +3,7 @@ import { userSwagger } from "../swagger/user.swagger";
 import { groupChatSwagger } from "../swagger/Group-chat.swagger";
 import { messageSwagger } from "../swagger/message-chat.swagger";
 import { categorySwagger } from "../swagger/category.swagger";
+import { blogSwagger } from "../swagger/blog.swagger";
 
 const swaggerOptions: Options = {
   swaggerDefinition: {
@@ -28,6 +29,7 @@ const swaggerOptions: Options = {
       ...groupChatSwagger,
       ...messageSwagger,
       ...categorySwagger,
+      ...blogSwagger,
     },
     tags: [
       {
