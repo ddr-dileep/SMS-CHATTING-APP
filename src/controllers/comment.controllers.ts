@@ -229,3 +229,40 @@ export const getOneCommentByIdController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const commentLikesController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { commentId } = req.params;
+    const userId = req.user._id;
+
+    // Find the existing comment
+    const comment: any = await commentModel.findById(commentId);
+    if (!comment) {
+      return res
+        .status(400)
+        .json(apiResponse.ERROR("invalid_comment", "Comment does not exist"));
+    }
+
+    // Check if the user has already liked the comment
+    const alreadyLiked = comment.likes.includes(userId);
+    if (alreadyLiked) {
+      comment.likes.pull(userId);
+      await comment.save();
+      return res
+        .status(200)
+        .json(apiResponse.SUCCESS({}, "Like removed successfully"));
+    }
+
+    // User has not liked the comment, so add the like
+    comment.likes.push(userId);
+    await comment.save();
+    return res
+      .status(200)
+      .json(apiResponse.SUCCESS({}, "Comment liked successfully"));
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};

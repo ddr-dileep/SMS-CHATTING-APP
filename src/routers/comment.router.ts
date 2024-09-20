@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authTokenMiddleware } from "../utils/token";
 import {
+  commentLikesController,
   createCommentController,
   deleteCommentController,
   getAllCommentOfBlogIdController,
@@ -30,3 +31,8 @@ commentRouter.patch(
 );
 commentRouter.get("/get-all-comments/:blogId", getAllCommentOfBlogIdController);
 commentRouter.get("/get-comment/:commentId", getOneCommentByIdController);
+commentRouter.patch(
+  "/like-comment/:commentId",
+  authTokenMiddleware,
+  commentLikesController
+);
