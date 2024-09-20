@@ -196,3 +196,53 @@ export const getAllBlogOfAuthorController = async (
       .json(apiResponse.ERROR("server_error", "something went wrong"));
   }
 };
+
+export const searchBlogPostController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { title, content, tags, author, category } = req.query;
+
+    const filter: any = {};
+
+    if (title) {
+      filter.title = { $regex: title, $options: "i" };
+    }
+
+    if (content) {
+      filter.content = { $regex: content, $options: "i" };
+    }
+
+    if (tags) {
+      filter.tags = { $in: tags.split(",") };
+    }
+
+    if (author) {
+      filter.author = author;
+    }
+
+    // if (category) {
+    //   filter.category = category;
+    // }
+
+    const blogs = await blogModel
+      .find(filter)
+      .populate("author", "_id username profilePicture");
+    //   .populate("category", "name")
+    //   .populate("comments", "content author");
+
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS(
+          { count: blogs.length, blogs },
+          "Search results fetched successfully"
+        )
+      );
+  } catch (error) {
+    res
+      .status(500)
+      .json(apiResponse.ERROR("server_error", "Something went wrong"));
+  }
+};

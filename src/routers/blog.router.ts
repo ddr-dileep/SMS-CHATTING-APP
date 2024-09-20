@@ -6,6 +6,7 @@ import {
   getAllBlogOfAuthorController,
   getLastestBlogController,
   getOneBlogByIdController,
+  searchBlogPostController,
   updateBlogController,
 } from "../controllers/blog.controllers";
 import { authTokenMiddleware } from "../utils/token";
@@ -38,5 +39,6 @@ blogRouters.get(
   authTokenMiddleware,
   getAllBlogOfAuthorController
 );
+blogRouters.get("/search", searchBlogPostController);
 
 export default blogRouters;
