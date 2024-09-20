@@ -150,3 +150,39 @@ export const deleteCommentController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const getAllCommentOfBlogIdController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const blogId = req.params.blogId;
+
+    const existingBlog: any = await blogModel.findById(blogId);
+    if (!existingBlog) {
+      return res
+        .status(400)
+        .json(
+          apiResponse.ERROR(
+            "invalid_blog",
+            "Invalid blog / blog does not exist"
+          )
+        );
+    }
+
+    const comments = await commentModel
+      .find({ blog: blogId })
+      .populate("author", "username email profilePicture");
+
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS(
+          { count: comments.length, comments },
+          "Comments fetched"
+        )
+      );
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
