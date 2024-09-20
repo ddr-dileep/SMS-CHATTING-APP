@@ -108,6 +108,7 @@ export const deleteCommentController = async (
   try {
     const { commentId } = req.params;
 
+    // Check if the comment exists
     const existingComment = await commentModel.findById(commentId);
     if (!existingComment) {
       return res
@@ -120,6 +121,7 @@ export const deleteCommentController = async (
         );
     }
 
+    // Check if the user is the author of the comment
     if (existingComment.author.toString() !== req.user._id.toString()) {
       return res
         .status(403)
@@ -131,13 +133,19 @@ export const deleteCommentController = async (
         );
     }
 
+    // Delete the comment
     await existingComment.deleteOne();
 
+    // Remove the comment ID from the blog post
     const blog: any = await blogModel.findById(existingComment.blog);
-    blog.comments.pull(commentId);
-    await blog.save();
+    if (blog) {
+      blog.comments.pull(commentId);
+      await blog.save();
+    }
 
-    res.status(200).json(apiResponse.SUCCESS({}, "comment deleted"));
+    res
+      .status(200)
+      .json(apiResponse.SUCCESS({}, "Comment deleted successfully"));
   } catch (error) {
     res.status(400).json(apiResponse.OTHER(error));
   }
