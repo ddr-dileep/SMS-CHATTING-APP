@@ -222,15 +222,15 @@ export const searchBlogPostController = async (
       filter.author = author;
     }
 
-    // if (category) {
-    //   filter.category = category;
-    // }
+    if (category) {
+      filter.category = category;
+    }
 
     const blogs = await blogModel
       .find(filter)
-      .populate("author", "_id username profilePicture");
-    //   .populate("category", "name")
-    //   .populate("comments", "content author");
+      .populate("author", "_id username profilePicture")
+      .populate("category", "name")
+      .populate("comments", "content author");
 
     res
       .status(200)
