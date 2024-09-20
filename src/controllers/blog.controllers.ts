@@ -141,3 +141,35 @@ export const getOneBlogByIdController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const deleteOneBlogByIdController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { blogId } = req.params;
+    const author = req.user._id;
+
+    const blog = await blogModel.findById(blogId);
+    if (!blog) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not_found", "Blog not found"));
+    }
+    if (blog.author.toString() !== author) {
+      return res
+        .status(403)
+        .json(
+          apiResponse.ERROR(
+            "forbidden",
+            "You are not authorized to delete this blog"
+          )
+        );
+    }
+
+    await blog.deleteOne();
+    res.status(200).json(apiResponse.SUCCESS({}, "Blog deleted successfully"));
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};

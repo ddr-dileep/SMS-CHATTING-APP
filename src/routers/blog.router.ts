@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createBlogController,
+  deleteOneBlogByIdController,
   getAllBlogController,
   getLastestBlogController,
   getOneBlogByIdController,
@@ -26,5 +27,10 @@ blogRouters.patch(
   updateBlogController
 );
 blogRouters.get("/:blogId", getOneBlogByIdController);
+blogRouters.delete(
+  "/:blogId",
+  authTokenMiddleware,
+  deleteOneBlogByIdController
+);
 
 export default blogRouters;
