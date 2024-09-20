@@ -21,3 +21,15 @@ export const createCategoryController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const getAllCategoryController = async (req: Request, res: Response) => {
+  try {
+    const categories = await categoryModel.find();
+
+    res.json(
+      apiResponse.SUCCESS({ categories }, "Categories fetched successfully")
+    );
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};

@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { createCategoryController } from "../controllers/category.controllers";
+import {
+  createCategoryController,
+  getAllCategoryController,
+} from "../controllers/category.controllers";
 import { authTokenMiddleware } from "../utils/token";
 import { creatCategoryMiddleware } from "../middlewares/category.middlewares";
 
@@ -12,3 +15,4 @@ categoryRouters.post(
   authTokenMiddleware,
   createCategoryController
 );
+categoryRouters.get("/get-all", getAllCategoryController);
