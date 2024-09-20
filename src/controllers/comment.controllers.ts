@@ -100,3 +100,45 @@ export const updateCommentController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const deleteCommentController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { commentId } = req.params;
+
+    const existingComment = await commentModel.findById(commentId);
+    if (!existingComment) {
+      return res
+        .status(400)
+        .json(
+          apiResponse.ERROR(
+            "invalid_comment",
+            "Invalid comment / comment does not exist"
+          )
+        );
+    }
+
+    if (existingComment.author.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json(
+          apiResponse.ERROR(
+            "forbidden",
+            "You are not the author of this comment"
+          )
+        );
+    }
+
+    await existingComment.deleteOne();
+
+    const blog: any = await blogModel.findById(existingComment.blog);
+    blog.comments.pull(commentId);
+    await blog.save();
+
+    res.status(200).json(apiResponse.SUCCESS({}, "comment deleted"));
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
