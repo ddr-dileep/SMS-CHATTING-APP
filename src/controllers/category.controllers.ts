@@ -33,3 +33,25 @@ export const getAllCategoryController = async (req: Request, res: Response) => {
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const updateCategoryController = async (req: Request, res: Response) => {
+  try {
+    const { categoryId } = req.params;
+    const updatedCategory = await categoryModel.findByIdAndUpdate(
+      categoryId,
+      req.body,
+      { new: true }
+    );
+
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS(
+          { updatedCategory },
+          "Category updated successfully"
+        )
+      );
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
