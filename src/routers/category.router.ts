@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createCategoryController,
+  deleteCategoryController,
   getAllCategoryController,
   updateCategoryController,
 } from "../controllers/category.controllers";
@@ -21,4 +22,9 @@ categoryRouters.patch(
   "/update/:categoryId",
   authTokenMiddleware,
   updateCategoryController
+);
+categoryRouters.delete(
+  "/delete/:categoryId",
+  authTokenMiddleware,
+  deleteCategoryController
 );
