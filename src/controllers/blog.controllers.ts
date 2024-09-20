@@ -72,3 +72,48 @@ export const createBlogController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const updateBlogController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { blogId } = req.params;
+
+    const existingBlog: any = await blogModel.findOne({
+      title: req.body.title,
+      author: req.user._id,
+    });
+
+    if (existingBlog && existingBlog._id.toString() !== blogId) {
+      return res
+        .status(400)
+        .json(
+          apiResponse.ERROR(
+            "duplicate_post",
+            "Blog with the same title of author already exists"
+          )
+        );
+    }
+
+    const updatedBlog = await blogModel.findByIdAndUpdate(blogId, req.body, {
+      new: true,
+    });
+
+    if (!updatedBlog) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not_found", "Blog not found"));
+    }
+
+    await updatedBlog.populate("author", "_id profilePicture username");
+
+    res
+      .status(200)
+      .json(
+        apiResponse.SUCCESS({ blog: updatedBlog }, "Blog updated successfully")
+      );
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};

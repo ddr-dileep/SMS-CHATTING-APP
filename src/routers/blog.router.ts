@@ -3,6 +3,7 @@ import {
   createBlogController,
   getAllBlogController,
   getLastestBlogController,
+  updateBlogController,
 } from "../controllers/blog.controllers";
 import { authTokenMiddleware } from "../utils/token";
 import { createBlogMiddleware } from "../middlewares/blog.middlewares";
@@ -16,6 +17,12 @@ blogRouters.post(
   createBlogMiddleware,
   authTokenMiddleware,
   createBlogController
+);
+blogRouters.patch(
+  "/update-blog/:blogId",
+  createBlogMiddleware,
+  authTokenMiddleware,
+  updateBlogController
 );
 
 export default blogRouters;
