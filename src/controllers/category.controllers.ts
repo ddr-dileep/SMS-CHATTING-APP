@@ -59,7 +59,7 @@ export const updateCategoryController = async (req: Request, res: Response) => {
 export const deleteCategoryController = async (req: Request, res: Response) => {
   try {
     const { categoryId } = req.params;
-    
+
     const exitingCategory = await categoryModel.findById(categoryId);
     if (!exitingCategory) {
       return res
