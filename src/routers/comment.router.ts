@@ -4,6 +4,7 @@ import {
   createCommentController,
   deleteCommentController,
   getAllCommentOfBlogIdController,
+  getOneCommentByIdController,
   updateCommentController,
 } from "../controllers/comment.controllers";
 import { createCommentMiddleware } from "../middlewares/comment.middlewares";
@@ -28,3 +29,4 @@ commentRouter.patch(
   deleteCommentController
 );
 commentRouter.get("/get-all-comments/:blogId", getAllCommentOfBlogIdController);
+commentRouter.get("/get-comment/:commentId", getOneCommentByIdController);

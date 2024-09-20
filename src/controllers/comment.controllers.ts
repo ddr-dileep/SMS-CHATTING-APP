@@ -186,3 +186,23 @@ export const getAllCommentOfBlogIdController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const getOneCommentByIdController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const commentId = req.params.commentId;
+    const comment = await commentModel.findById(commentId);
+    if (!comment) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("comment_not_found", "Comment not found"));
+    }
+    await comment.populate("author", "username email profilePicture");
+    await comment.populate("blog", "title author");
+    res.json(apiResponse.SUCCESS({ comment }, "Comment fetched"));
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
