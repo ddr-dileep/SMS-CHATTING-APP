@@ -117,3 +117,27 @@ export const updateBlogController = async (
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const getOneBlogByIdController = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const { blogId } = req.params;
+    const blog = await blogModel.findById(blogId);
+
+    if (!blog) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not_found", "Blog not found"));
+    }
+
+    await blog.populate("author", "_id profilePicture username");
+
+    res
+      .status(200)
+      .json(apiResponse.SUCCESS({ blog }, "Blog fetched successfully"));
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
