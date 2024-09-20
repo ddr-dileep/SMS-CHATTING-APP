@@ -3,6 +3,7 @@ import {
   createCategoryController,
   deleteCategoryController,
   getAllCategoryController,
+  getoneCategoryByIdController,
   updateCategoryController,
 } from "../controllers/category.controllers";
 import { authTokenMiddleware } from "../utils/token";
@@ -28,3 +29,4 @@ categoryRouters.delete(
   authTokenMiddleware,
   deleteCategoryController
 );
+categoryRouters.get("/get-one/:categoryId", getoneCategoryByIdController);

@@ -74,3 +74,25 @@ export const deleteCategoryController = async (req: Request, res: Response) => {
     res.status(400).json(apiResponse.OTHER(error));
   }
 };
+
+export const getoneCategoryByIdController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { categoryId } = req.params;
+    const category = await categoryModel.findById(categoryId);
+
+    if (!category) {
+      return res
+        .status(404)
+        .json(apiResponse.ERROR("not_found", "Category not found"));
+    }
+
+    res.json(
+      apiResponse.SUCCESS({ category }, "Category fetched successfully")
+    );
+  } catch (error) {
+    res.status(400).json(apiResponse.OTHER(error));
+  }
+};
